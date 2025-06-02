@@ -1,0 +1,23 @@
+{
+  "family": "my-spring-app",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::011528261085:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "my-spring-app",
+      "image": "techhill/my-spring-app:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  ]
+}
+
