@@ -51,32 +51,31 @@ jobs:
           aws-region: us-east-1  # <-- Make sure this matches your resources
 
 
-      - name: Register new ECS task definition
+      - name: Create ECS task definition file
         run: |
-          cat <<EOF > task-def.json
+          echo '{
+           "family": "my-spring-app",
+           "networkMode": "awsvpc",
+           "requiresCompatibilities": ["FARGATE"],
+           "cpu": "256",
+           "memory": "512",
+           "executionRoleArn": "arn:aws:iam::011528261085:role/ecsTaskExecutionRole",
+           "containerDefinitions": [
           {
-            "family": "${{ secrets.ECS_TASK_DEFINITION_FAMILY }}",
-            "networkMode": "awsvpc",
-            "executionRoleArn": "arn:aws:iam::011528261085:role/ecsTaskExecutionRole",
-            "requiresCompatibilities": ["FARGATE"],
-            "cpu": "256",
-            "memory": "512",
-            "containerDefinitions": [
-              {
-                "name": "my-spring-app",
-                "image": "techhill/my-spring-app:latest",
-                "essential": true,
-                "portMappings": [
-                  {
-                    "containerPort": 8080,
-                    "protocol": "tcp"
-                  }
-                ]
-              }
-            ]
-          }
-          EOF
-          aws ecs register-task-definition --cli-input-json file://task-def.json
+           "name": "my-spring-app",
+           "image": "techhill/my-spring-app:latest",
+           "essential": true,
+           "portMappings": [
+            {
+              "containerPort": 8080,
+              "hostPort": 8080,
+              "protocol": "tcp"
+            }
+          ]
+           }
+          ]
+           }' > task-def.json
+
 
       - name: Get latest task definition revision
         run: |
