@@ -49,8 +49,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  # <-- Make sure this matches your resources
-
-
+          
       - name: Create ECS task definition file
         run: |
           echo '{
@@ -75,12 +74,19 @@ jobs:
            }
           ]
            }' > task-def.json
-
-
+    
+      - name: Debug: Show task family secret
+        run: echo "Using task definition family: ${{ secrets.ECS_TASK_DEFINITION_FAMILY }}
+        
       - name: Get latest task definition revision
         run: |
+           if [ -z "${{ secrets.ECS_TASK_DEFINITION_FAMILY }}" ]; then
+           echo "ECS_TASK_DEFINITION_FAMILY secret is not set."
+          exit 1
+          fi
           REVISION=$(aws ecs describe-task-definition --task-definition ${{ secrets.ECS_TASK_DEFINITION_FAMILY }} --query 'taskDefinition.revision' --output text)
           echo "REV=$REVISION" >> $GITHUB_ENV
+
 
       - name: Deploy to ECS
         run: |
