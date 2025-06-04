@@ -75,17 +75,17 @@ jobs:
           ]
            }' > task-def.json
     
-      - name: Debug: Show task family secret
-        run: echo "Using task definition family: ${{ secrets.ECS_TASK_DEFINITION_FAMILY }}
+      - name: Debug:Show task family secret
+        run: echo "Using task definition family:${{ secrets.ECS_TASK_DEFINITION_FAMILY }}
         
       - name: Get latest task definition revision
         run: |
            if [ -z "${{ secrets.ECS_TASK_DEFINITION_FAMILY }}" ]; then
            echo "ECS_TASK_DEFINITION_FAMILY secret is not set."
-          exit 1
-          fi
-          REVISION=$(aws ecs describe-task-definition --task-definition ${{ secrets.ECS_TASK_DEFINITION_FAMILY }} --query 'taskDefinition.revision' --output text)
-          echo "REV=$REVISION" >> $GITHUB_ENV
+           exit 1
+           fi
+           REVISION=$(aws ecs describe-task-definition --task-definition ${{ secrets.ECS_TASK_DEFINITION_FAMILY }} --query 'taskDefinition.revision' --output text)
+           echo "REV=$REVISION" >> $GITHUB_ENV
 
 
       - name: Deploy to ECS
