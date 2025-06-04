@@ -88,9 +88,10 @@ jobs:
            echo "REV=$REVISION" >> $GITHUB_ENV
 
 
-      - name: Deploy to ECS
+      - name: Update ECS Service
         run: |
           aws ecs update-service \
-            --cluster ${{ secrets.ECS_CLUSTER }} \
-            --service ${{ secrets.ECS_SERVICE }} \
-            --task-definition ${{ secrets.ECS_TASK_DEFINITION_FAMILY }}:${{ env.REV }}
+          --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
+          --service ${{ secrets.ECS_SERVICE_NAME }} \
+          --task-definition ${{ secrets.ECS_TASK_DEFINITION_FAMILY }}:$REV
+
