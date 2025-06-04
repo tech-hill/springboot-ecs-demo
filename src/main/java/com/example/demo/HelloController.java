@@ -8,7 +8,7 @@ public class HelloController {
 
     @GetMapping("/")
     public String home() {
-        return "Hello from Dockerized Spring Boot!";
+        return "This is my first GITHUB Action Deployment!";
     }
 }
 
