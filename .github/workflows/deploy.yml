@@ -76,7 +76,7 @@ jobs:
            }' > task-def.json
     
       - name: Debug:Show task family secret
-        run: echo "Using task definition family:${{ secrets.ECS_TASK_DEFINITION_FAMILY }}
+        run: echo "Using task definition family:${{ secrets.ECS_TASK_DEFINITION_FAMILY }}"
         
       - name: Get latest task definition revision
         run: |
