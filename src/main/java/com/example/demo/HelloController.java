@@ -8,7 +8,7 @@ public class HelloController {
 
     @GetMapping("/")
     public String home() {
-        return "This is my first GITHUB Action Deployment, Using DOCKER image pushed and deploy thr ECS!";
+        return "This is my first GITHUB Action Deployment Using DOCKER image pushed and deploy the ECS!";
     }
 }
 
